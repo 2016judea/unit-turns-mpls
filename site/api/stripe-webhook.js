@@ -25,6 +25,15 @@ module.exports = async (req, res) => {
   if (!verify(body.toString("utf8"), req.headers["stripe-signature"], secrets)) return res.status(400).json({ error: "bad signature" });
   const ev = JSON.parse(body.toString("utf8"));
   const s = ev.data?.object;
+  // Stripe caps an account at 16 live webhook endpoints (hit 2026-10-17), so sibling
+  // products with no endpoint of their own are relayed from here: the same body and
+  // signature, which they verify with this endpoint's secret (set as their
+  // STRIPE_WEBHOOK_SECRET). A non-2xx from them makes Stripe retry this event.
+  const fwd = JSON.parse(process.env.WEBHOOK_FORWARD || "{}")[s?.metadata?.product];
+  if (ev.type === "checkout.session.completed" && fwd) {
+    const r = await fetch(fwd, { method: "POST", headers: { "content-type": "application/json", "stripe-signature": req.headers["stripe-signature"] }, body });
+    return res.status(r.ok ? 200 : 502).json({ forwarded: s.metadata.product, status: r.status });
+  }
   if (ev.type !== "checkout.session.completed" || s?.metadata?.product !== PRODUCT) return res.status(200).json({ ignored: true });
   try {
     const r = await sendPasswordOnce(s, { who: "webhook" });

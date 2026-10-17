@@ -91,7 +91,7 @@ for (kind, k), rs in groups.items():
         "w": ("Firm, by the email domain on its licences. Contact on file: " + ", ".join(n for n, _ in names.most_common(2))) if kind == "firm" else "Manager or owner named on the licences",
         "lat": round(bl[0]["latitude"], 4), "lon": round(bl[0]["longitude"], 4),
         "k": {"units": -u, "t3": -t3, "name": t.lower()},
-        "c": "<br>".join(" · ".join(x for x in [n, f'<a href="tel:{p}">{p}</a>' if p else "", f'<a href="mailto:{e}">{e}</a>' if e else ""] if x) for n, p, e in top),
+        "c": "<br>".join(" · ".join(x for x in [n, f'<a href="tel:{p}">{p}</a>' if p else "", " ".join(f'<a href="mailto:{x}">{x}</a>' for x in re.split(r"[;,\s]+", e) if "@" in x) if e else ""] if x) for n, p, e in top),
         "rows_label": f"All {len(rs)} building{'s' if len(rs) != 1 else ''}",
         "rows": [{"a": title(r["address"]), "m": f"{units(r)} units · {r['neighborhoodDesc'] or ''} · {r['tier'] or ''} · owner {title(r['ownerName'])}",
                   "lat": round(r["latitude"], 5), "lon": round(r["longitude"], 5)} for r in bl],
