@@ -36,6 +36,9 @@ module.exports = async (req, res) => {
         "metadata[pw_nonce]": nonce,
         "metadata[password]": password,
         "metadata[token]": token,
+        // for the shared Stripe webhook router (~/Desktop/stripe-router): which product, and
+        // which handler emails the password
+        "metadata[handler_url]": `${SITE}/api/stripe-webhook`,
         "payment_intent_data[metadata][product]": PRODUCT,
         "payment_intent_data[metadata][pw_nonce]": nonce,
         "payment_intent_data[description]": `${meta.name}: the full list`,
