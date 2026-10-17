@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>__TITLE__</title>
+<meta name="description" content="__DESC__">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?__FONTS__&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{__LIGHT__ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){__DARK__ color-scheme:dark}}
+:root[data-theme="dark"]{__DARK__ color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);margin:0}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:24px 64px}
+.eyebrow{font:500 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:var(--h1w) clamp(30px,6.4vw,52px)/1.04 var(--display);margin:10px 0 12px;text-wrap:balance;letter-spacing:-.01em;max-width:19ch}
+.lede{font-size:18px;max-width:60ch;margin:0;color:var(--ink2)}
+.lede b{color:var(--ink);font-weight:600}
+.yours{border-left:3px solid var(--accent);padding:6px 0 6px 12px;margin:18px 0 0;max-width:62ch;color:var(--ink2)}
+.yours q{font-style:italic;color:var(--ink)}
+.yours a{color:var(--muted)}
+.stats{display:flex;flex-wrap:wrap;gap:10px 28px;margin:20px 0 4px;font-variant-numeric:tabular-nums}
+.stat b{display:block;font:600 26px/1.1 var(--display);color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:22px}
+@media(min-width:860px){.grid{grid-template-columns:330px 1fr;align-items:start}.mapbox{position:sticky;top:12px}}
+@media(max-width:859px){.mapbox{order:2}}
+.mapbox{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:12px}
+.mapbox svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.controls{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 13px/1 var(--body);border:1px solid var(--rule);background:var(--bg);color:var(--ink2);padding:10px 12px;border-radius:999px;cursor:pointer;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--onaccent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row2{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,.btn,input{font:500 16px var(--body);color:var(--ink);background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:9px 10px;min-height:44px}
+select{max-width:100%}
+.btn{cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.lock{font-size:12px;opacity:.75}
+.count{font:12px var(--mono);color:var(--muted)}
+ol{list-style:none;margin:0;padding:0}
+li.it{padding:14px 2px;border-top:1px solid var(--rule);display:grid;grid-template-columns:1fr auto;gap:2px 12px}
+.it .a{font-weight:600;font-size:17px;overflow-wrap:anywhere}
+.it .m{grid-column:1/-1;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:3px 12px;font-variant-numeric:tabular-nums}
+.it .w{grid-column:1/-1;font-size:14px;color:var(--ink2);margin:2px 0}
+.it .c{grid-column:1/-1;font-size:14px;color:var(--ink);margin:4px 0 0;overflow-wrap:anywhere}
+.it .c a{color:var(--accent)}
+.it details{grid-column:1/-1;font-size:14px;margin-top:4px}
+.it summary{cursor:pointer;color:var(--accent);font-weight:500;padding:8px 0;min-height:36px}
+.it details ul{margin:4px 0 0;padding:0 0 0 14px;color:var(--ink2)}
+.it details li{margin:3px 0}
+.it details li span{color:var(--muted);font-size:13px}
+.tag{font:500 11px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:5px 7px;border-radius:4px;white-space:nowrap;align-self:start;background:var(--tagbg);color:var(--tagfg)}
+.tag.hot{background:var(--hotbg);color:var(--hotfg)}
+.blur{filter:blur(4.5px);user-select:none;pointer-events:none}
+.ghostrow{border-top:1px solid var(--rule);padding:14px 2px;color:var(--muted)}
+.more{margin:14px 0 0}
+.pay{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:18px 16px;margin:16px 0}
+.pay h2{font:600 22px/1.2 var(--display);margin:0 0 6px}
+.pay p{margin:0 0 10px;color:var(--ink2);max-width:58ch}
+.pay .price{font:600 18px var(--body);color:var(--ink)}
+.pay-btn{font:600 16px var(--body);border-radius:8px;padding:12px 18px;border:1px solid var(--accent);background:var(--accent);color:var(--onaccent);cursor:pointer;min-height:46px}
+.pay-btn.alt{background:transparent;color:var(--accent)}
+.pay-act{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.pwf{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.pwf input{flex:1 1 200px;letter-spacing:.08em;text-transform:uppercase}
+.pwf button{font:600 15px var(--body);border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--onaccent);padding:9px 14px;cursor:pointer;min-height:44px}
+.pwerr{flex-basis:100%;margin:0;color:var(--hotfg);font-size:14px}
+.pay-co:empty{display:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+[hidden]{display:none!important}
+.unl{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:var(--onaccent);border-radius:4px;padding:3px 7px}
+.note{font-size:13px;color:var(--muted);max-width:66ch;margin-top:36px;border-top:1px solid var(--rule);padding-top:14px}
+.note p{margin:0 0 8px}
+.toast{font:12px var(--mono);color:var(--accent)}
+</style>
+__HEAD_ANALYTICS__
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow" id="eyebrow"></div>
+  <h1 id="h1"></h1>
+  <p class="lede" id="lede"></p>
+  <div class="yours" id="yours" hidden></div>
+  <div class="stats" id="stats"></div>
+  <section class="pay" id="paid" hidden aria-live="polite"><h2 id="paidH">Confirming your payment…</h2><p id="paidP"></p>
+    <form class="pwf" hidden><label class="sr" for="pw2">Password</label><input id="pw2" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX"><button>Open the full list</button><p class="pwerr" role="alert"></p></form></section>
+  <div class="grid">
+    <div class="mapbox"><svg id="map" viewBox="0 0 300 300" role="img" aria-label="Map with each place as a dot"></svg><div class="legend" id="legend"></div></div>
+    <div>
+      <div class="controls">
+        <div class="chips" id="chips"></div>
+        <div class="row2">
+          <label class="count" for="sort">Sort</label><select id="sort"></select>
+          <span id="originbox" hidden><label class="sr" for="origin">From</label><select id="origin"></select></span>
+          <button class="btn" id="csv" type="button">Download spreadsheet <span class="lock" id="csvlock">🔒</span></button>
+          <span class="toast" id="toast" aria-live="polite"></span>
+        </div>
+        <div class="count" id="count"></div>
+      </div>
+      <ol id="list"></ol>
+      <div id="ghost"></div>
+      <button class="btn more" id="more" type="button" hidden>Show more</button>
+      <section class="pay" id="pay" aria-labelledby="payH">
+        <h2 id="payH"></h2>
+        <p id="payL"></p>
+        <p class="price" id="price"></p>
+        <div class="pay-act"><button type="button" class="pay-btn" id="buy"></button><button type="button" class="pay-btn alt" id="havepw" aria-expanded="false">Have a password?</button></div>
+        <form class="pwf" id="pwf" hidden><label class="sr" for="pw1">Password</label><input id="pw1" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX"><button>Open the full list</button><p class="pwerr" role="alert"></p></form>
+        <p class="count">You get a password by email right away. Card or Link, through Stripe.</p>
+        <div class="pay-co" id="checkout"></div>
+      </section>
+    </div>
+  </div>
+  <div class="note" id="note"></div>
+</div>
+<script>
+const D=__DATA__;
+(function(){
+const FOR=window.FOR||null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const track=(name,data={})=>{data={...data,token:FOR?FOR.token:""};try{window.va("event",{name,data})}catch(e){}try{if(window.posthog&&posthog.capture)posthog.capture(name,data)}catch(e){}};
+let ITEMS=D.items, FULL=false, sel=null, shown=30, CO=null;
+const miles=(a,b,c,d)=>{const R=3958.8,p=Math.PI/180;const h=Math.sin((c-a)*p/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin((d-b)*p/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+$("eyebrow").textContent=D.eyebrow;$("h1").textContent=D.h1;$("lede").innerHTML=D.lede;
+$("stats").innerHTML=D.stats.map(s=>`<div class="stat"><b>${esc(s[0])}</b><span>${esc(s[1])}</span></div>`).join("");
+$("note").innerHTML=D.note;
+$("payH").textContent=D.pay_h;$("payL").innerHTML=D.pay_line;$("price").textContent=`$${D.price_usd}, once.`;$("buy").textContent=`Get the full list · $${D.price_usd}`;
+if(FOR){const y=$("yours");y.hidden=false;y.innerHTML=`${esc(FOR.lead||"You wrote")}: <q>${esc(FOR.quote)}</q>${FOR.url?` <a href="${esc(FOR.url)}" rel="noopener">(your post)</a>`:""}${FOR.fact?`<br>${esc(FOR.fact)}`:""}`}
+const ORIG=D.origins||[];
+if(ORIG.length){$("origin").innerHTML=ORIG.map((o,i)=>`<option value="${i}">from ${esc(o[0])}</option>`).join("");const di=FOR&&FOR.origin?ORIG.findIndex(o=>o[0]===FOR.origin):-1;if(di>=0)$("origin").value=String(di)}
+const origin=()=>ORIG[+$("origin").value]||null;
+function dist(it){const o=origin();if(!o)return null;const pts=it.rows&&it.rows.length?it.rows:[it];let m=1e9;for(const p of pts){if(p.lat!=null){const d=miles(o[1],o[2],p.lat,p.lon);if(d<m)m=d}}return m<1e9?m:null}
+function sortOpts(){$("sort").innerHTML=D.sorts.map(s=>`<option value="${s.key}">${esc(s.label)}${s.paid&&!FULL?" 🔒":""}</option>`).join("")}
+sortOpts();
+function sorted(rows){const k=$("sort").value,s=D.sorts.find(x=>x.key===k)||D.sorts[0];
+  if(s.near){rows.forEach(r=>r._d=dist(r));return rows.sort((a,b)=>(a._d??1e9)-(b._d??1e9))}
+  return rows.sort((a,b)=>{const x=a.k[s.key],y=b.k[s.key];if(x===y)return 0;if(x==null)return 1;if(y==null)return -1;return x<y?-1:1})}
+const GC=D.group_counts;
+function chips(){$("chips").innerHTML=[["All",D.total],...D.group_order.filter(g=>GC[g]).map(g=>[g,GC[g]])].map(([g,n])=>`<button class="chip" type="button" data-g="${esc(g)}" aria-pressed="${(g==="All"&&!sel)||g===sel}">${esc(g)} · ${n}</button>`).join("")}
+$("chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;sel=b.dataset.g==="All"?null:b.dataset.g;shown=30;chips();render();track("filter",{group:sel||"All"})};
+const P=D.points;const lats=P.map(p=>p[0]),lons=P.map(p=>p[1]);
+const B={n:Math.max(...lats)+.005,s:Math.min(...lats)-.005,w:Math.min(...lons)-.005,e:Math.max(...lons)+.005};
+const kx=Math.cos((B.n+B.s)/2*Math.PI/180),W=300,H=Math.round(W*(B.n-B.s)/((B.e-B.w)*kx));
+$("map").setAttribute("viewBox",`0 0 ${W} ${H}`);
+const px=(la,lo)=>[(lo-B.w)/(B.e-B.w)*W,(B.n-la)/(B.n-B.s)*H];
+const COL=Object.fromEntries(D.legend.map(l=>[l[0],l[1]]));
+$("legend").innerHTML=D.legend.map(([g,c,l])=>`<span><i style="background:${c}"></i>${esc(l||g)}</span>`).join("");
+function map(){let s=`<rect width="${W}" height="${H}" fill="var(--panel)"/>`;
+  s+=P.map(p=>{const on=!sel||p[2]===sel;const [x,y]=px(p[0],p[1]);return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${on?2.2:1.3}" fill="${on?(COL[p[2]]||"var(--accent)"):"var(--ghost)"}" opacity="${on?.8:.4}"/>`}).join("");
+  const o=origin();if(o&&FULL&&$("sort").value==="near"&&o[1]<B.n&&o[1]>B.s&&o[2]>B.w&&o[2]<B.e){const [x,y]=px(o[1],o[2]);s+=`<rect x="${x-5}" y="${y-5}" width="10" height="10" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/>`}
+  $("map").innerHTML=s}
+function item(r){const o=origin();const d=r._d!=null&&FULL&&$("sort").value==="near"&&o?`${r._d.toFixed(1)} mi from ${esc(o[0])}`:"";
+  const sub=r.rows&&r.rows.length?`<details><summary>${esc(r.rows_label||(r.rows.length+" addresses"))}</summary><ul>${r.rows.map(x=>`<li>${esc(x.a)}${x.m?` <span>${esc(x.m)}</span>`:""}</li>`).join("")}</ul></details>`:(r.rows_locked?`<div class="m"><span>🔒 ${esc(r.rows_locked)}</span></div>`:"");
+  return `<li class="it" data-id="${esc(r.id)}"><span class="a">${esc(r.t)}</span>${r.tag?`<span class="tag ${r.hot?"hot":""}">${esc(r.tag)}</span>`:"<span></span>"}${r.w?`<span class="w">${esc(r.w)}</span>`:""}<span class="m">${[...(r.m||[]),d].filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join("")}</span>${r.c?`<span class="c">${r.c}</span>`:""}${sub}</li>`}
+function filtered(){return sorted(ITEMS.filter(x=>!sel||x.g===sel).slice())}
+function render(){const rows=filtered();map();
+  const total=sel?GC[sel]:D.total;
+  $("count").textContent=FULL?`Showing ${Math.min(shown,rows.length)} of ${rows.length}`:`Free preview: ${rows.length} of ${total}`;
+  $("list").innerHTML=rows.slice(0,shown).map(item).join("");
+  $("more").hidden=shown>=rows.length;
+  $("ghost").innerHTML=FULL?"":`<div class="ghostrow"><span class="blur">${esc(D.ghost||"")}</span><br>+ ${Math.max(0,total-rows.length).toLocaleString()} more ${esc(D.noun)} in the full list</div>`;
+  $("pay").hidden=FULL;$("csvlock").hidden=FULL;$("originbox").hidden=!(FULL&&ORIG.length&&$("sort").value==="near");}
+$("more").onclick=()=>{shown+=60;render()};
+const openPay=why=>{track("paywall_click",{why});$("pay").scrollIntoView({behavior:"smooth",block:"start"})};
+$("sort").onchange=()=>{const s=D.sorts.find(x=>x.key===$("sort").value);if(s&&s.paid&&!FULL){$("sort").value=D.sorts[0].key;openPay("sort:"+s.key);return}shown=30;render();track("sort",{key:$("sort").value})};
+$("origin").onchange=()=>{render();track("origin",{o:origin()[0]})};
+$("list").addEventListener("toggle",e=>{if(e.target.open)track("row_expand",{id:e.target.closest("li").dataset.id})},true);
+$("csv").onclick=()=>{if(!FULL)return openPay("csv");
+  const rows=filtered();const out=[D.csv_cols];rows.forEach(r=>(r.csv||[]).forEach(x=>out.push(x)));
+  const t=out.map(r=>r.map(v=>{v=String(v??"");return /[",\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v}).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download=`${D.slug}-${D.built}.csv`;document.body.appendChild(a);a.click();a.remove();track("download",{rows:out.length-1})};
+const store={get:()=>{try{return localStorage.getItem(D.slug+"_pw")}catch(e){return null}},set:v=>{try{v?localStorage.setItem(D.slug+"_pw",v):localStorage.removeItem(D.slug+"_pw")}catch(e){}}};
+async function unlock(pw,via){const r=await fetch("/api/data",{headers:{"x-password":pw}});
+  if(!r.ok){let m="That password didn't match.";try{m=(await r.json()).error||m}catch(e){}throw new Error(m)}
+  const F=await r.json();ITEMS=F.items;FULL=true;store.set(pw);sortOpts();if(FOR&&FOR.sort&&D.sorts.some(s=>s.key===FOR.sort))$("sort").value=FOR.sort;
+  $("eyebrow").innerHTML=`<span class="unl">Full list</span> `+esc(D.eyebrow);track("unlock",{via,kind:r.headers.get("X-Access")||""});shown=30;render()}
+document.querySelectorAll(".pwf").forEach(f=>f.onsubmit=async e=>{e.preventDefault();const inp=f.querySelector("input"),err=f.querySelector(".pwerr"),b=f.querySelector("button");err.textContent="";const v=inp.value.trim();if(!v){err.textContent="Enter the password from your email.";return}b.disabled=true;try{await unlock(v,"form");$("paid").hidden=true;scrollTo({top:0,behavior:"smooth"})}catch(x){err.textContent=x.message}finally{b.disabled=false}});
+$("havepw").onclick=()=>{const f=$("pwf"),on=f.hidden;f.hidden=!on;$("havepw").setAttribute("aria-expanded",on);if(on)f.querySelector("input").focus()};
+const loadStripe=()=>window.Stripe?Promise.resolve():new Promise((ok,no)=>{const sc=document.createElement("script");sc.src="https://js.stripe.com/dahlia/stripe.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});
+$("buy").onclick=async()=>{track("checkout_open");if(CO){$("checkout").scrollIntoView({behavior:"smooth"});return}
+  const b=$("buy"),t=b.textContent;b.disabled=true;b.textContent="Loading secure checkout…";
+  try{await loadStripe();const st=Stripe(D.stripe_pk);
+    const opts={fetchClientSecret:()=>fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:FOR?FOR.token:""})}).then(r=>r.json()).then(j=>{if(!j.clientSecret)throw new Error(j.error||"no session");return j.clientSecret})};
+    CO=await(st.createEmbeddedCheckoutPage?st.createEmbeddedCheckoutPage(opts):st.initEmbeddedCheckout(opts));
+    CO.mount("#checkout");b.hidden=true;setTimeout(()=>$("checkout").scrollIntoView({behavior:"smooth",block:"start"}),300)}
+  catch(e){CO=null;b.textContent=t;$("toast").textContent="Checkout didn't load. Refresh and try again, or email aidan@brickandmortar.dev."}finally{b.disabled=false}};
+async function back(id){const P=$("paid");P.hidden=false;try{const r=await(await fetch("/api/session-status?session_id="+encodeURIComponent(id))).json();
+  if(r.paid){$("paidH").textContent="Check your email for your password";$("paidP").textContent=`It's on its way to ${r.email||"your email"}. Enter it here to open the full list.`;P.querySelector(".pwf").hidden=false;track("paid");return}
+  $("paidH").textContent="The payment didn't go through";$("paidP").textContent="If you were charged, the password is on its way to your email. Otherwise try again, or write to aidan@brickandmortar.dev."}
+  catch(e){$("paidH").textContent="Couldn't confirm the payment yet";$("paidP").textContent="Refresh in a minute. If you were charged, the password is on its way to your email."}}
+const qs=new URLSearchParams(location.search),pwq=qs.get("pw"),paidq=qs.get("paid");
+if(pwq||paidq){qs.delete("pw");qs.delete("paid");history.replaceState(null,"",location.pathname+(qs.toString()?"?"+qs:"")+location.hash)}
+chips();render();track("preview_open");
+if(paidq)back(paidq);
+const first=pwq||store.get();if(first)unlock(first,pwq?"link":"saved").catch(x=>{if(pwq){$("pwf").hidden=false;$("pw1").value=pwq;$("pwf").querySelector(".pwerr").textContent=x.message}else store.set(null)});
+})();
+</script>
+</body>
+</html>

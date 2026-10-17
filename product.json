@@ -1,0 +1,10 @@
+{
+ "slug": "unit-turns-mpls",
+ "name": "Unit Turns",
+ "price_usd": 5,
+ "title": "Unit Turns",
+ "desc": "Every Minneapolis property manager, ranked by the rental units they turn, with the licence contact, plus apartment buildings that just sold.",
+ "fonts": "family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600",
+ "light": "--bg:#f6f4ef;--panel:#ece9e1;--ink:#1d1c19;--ink2:#3c3a35;--muted:#6d6a62;--rule:#d8d4c9;--accent:#2b4f8c;--onaccent:#f6f4ef;--hot:#c0532a;--mid:#8d8a80;--stp:#5f7d3a;--sold:#8a3f86;--ghost:#cdc9be;--tagbg:#e4e0d6;--tagfg:#4a4740;--hotbg:#f3dccf;--hotfg:#8e3613;--display:\"Fraunces\",Georgia,serif;--body:\"Public Sans\",system-ui,sans-serif;--h1w:700;",
+ "dark": "--bg:#161513;--panel:#1f1d1a;--ink:#ece8df;--ink2:#cbc6bb;--muted:#979287;--rule:#33302b;--accent:#8fb0ec;--onaccent:#161513;--hot:#ee8a62;--mid:#77736a;--stp:#a3c27a;--sold:#d39bd0;--ghost:#38352f;--tagbg:#28251f;--tagfg:#bdb7aa;--hotbg:#43271a;--hotfg:#f6b597;"
+}

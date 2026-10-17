@@ -1,0 +1,11 @@
+pipeline/cache/
+__pycache__/
+.DS_Store
+.vercel/
+.env
+# the paid rows: only the free slice ships in site/
+private/
+site/api/_full/
+# outreach: names, contacts and per-prospect pages stay local (site/for/ deploys from disk)
+outreach/round1/ledger.csv
+site/for/
