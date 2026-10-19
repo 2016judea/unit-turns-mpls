@@ -51,7 +51,7 @@ Minnesota public data may be reused and sold (AG op. 852, 1995).
 
 ## The paywall
 
-`site/` ships only the free slice (`site/data/free.json`, inlined in `site/index.html`).
+`site/public/` ships only the free slice (`site/public/data/free.json`, inlined in `site/public/index.html`).
 `pipeline/build.py` writes every row to `private/bundle/full.json.gz` (gitignored);
 `scripts/deploy.py` uploads it as `api/_full/`, read only by `/api/data`. Ported from
 buying-window and msp-house-index.
@@ -78,7 +78,7 @@ python3 -m pytest -q tests        # the free slice leaks nothing paid
 VERCEL_TOKEN=... python3 scripts/deploy.py
 ```
 
-`site/index.html` is generated from `kit/template.html`; edit the template or the build.
+`site/public/index.html` is generated from `kit/template.html`; edit the template or the build.
 
 ## Licence
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Write one /for/<token>/ page per prospect in outreach/round1/ledger.csv.
 
-Each page is site/index.html with the prospect's own post quoted on top and their
+Each page is site/public/index.html with the prospect's own post quoted on top and their
 origin (for the distance sort) preset. The token sits in the PATH, never ?query or
-#hash, because Vercel analytics drops those. site/for/ is gitignored (names stay local)
+#hash, because Vercel analytics drops those. site/public/for/ is gitignored (names stay local)
 and deployed from disk by scripts/deploy.py. Run after pipeline/build.py, before deploy.
 """
 import csv, html, json, shutil
@@ -11,8 +11,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "outreach/round1/ledger.csv"
-OUT = ROOT / "site/for"
-page = (ROOT / "site/index.html").read_text()
+OUT = ROOT / "site/public/for"
+page = (ROOT / "site/public/index.html").read_text()
 shutil.rmtree(OUT, ignore_errors=True)
 n = 0
 for r in csv.DictReader(LEDGER.open()):

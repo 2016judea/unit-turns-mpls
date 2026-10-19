@@ -15,11 +15,14 @@ import duckdb
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "kit"))
-from publish import publish  # noqa: E402
+from publish import esc, publish  # noqa: E402
+from dates import months_back  # noqa: E402
 
 C = ROOT / "pipeline/cache"
 PRODUCT = json.loads((ROOT / "product.json").read_text())
 BRICKS = Path.home() / "Desktop/bricks/data"
+# The page says "pulled <date>": that is the day pull.py wrote the cache, not the day this script ran.
+PULLED = dt.date.fromtimestamp((C / "rental.json").stat().st_mtime)
 SALES_FROM = "202507"   # twelve months back from the parcel snapshot's last sale month
 MIN_UNITS = 10          # a manager under this is a small landlord, not a turn account
 FREEMAIL = {"gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "aol.com", "icloud.com", "comcast.net", "msn.com",
@@ -91,7 +94,7 @@ for (kind, k), rs in groups.items():
         "w": ("Firm, by the email domain on its licences. Contact on file: " + ", ".join(n for n, _ in names.most_common(2))) if kind == "firm" else "Manager or owner named on the licences",
         "lat": round(bl[0]["latitude"], 4), "lon": round(bl[0]["longitude"], 4),
         "k": {"units": -u, "t3": -t3, "name": t.lower()},
-        "c": "<br>".join(" · ".join(x for x in [n, f'<a href="tel:{p}">{p}</a>' if p else "", " ".join(f'<a href="mailto:{x}">{x}</a>' for x in re.split(r"[;,\s]+", e) if "@" in x) if e else ""] if x) for n, p, e in top),
+        "c": "<br>".join(" · ".join(x for x in [esc(n), f'<a href="tel:{p}">{p}</a>' if p else "", " ".join(f'<a href="mailto:{esc(x)}">{esc(x)}</a>' for x in re.split(r"[;,\s]+", e) if "@" in x) if e else ""] if x) for n, p, e in top),
         "rows_label": f"All {len(rs)} building{'s' if len(rs) != 1 else ''}",
         "rows": [{"a": title(r["address"]), "m": f"{units(r)} units · {r['neighborhoodDesc'] or ''} · {r['tier'] or ''} · owner {title(r['ownerName'])}",
                   "lat": round(r["latitude"], 5), "lon": round(r["longitude"], 5)} for r in bl],
@@ -161,12 +164,12 @@ for pin, sd, sp, o, h, s, typ, la, lo in sorted(sales, key=lambda x: (x[1], x[2]
     month = dt.date(int(sd[:4]), int(sd[4:6]), 1).strftime("%b %Y")
     city = "St. Paul" if str(pin).startswith("R") else "Minneapolis"
     sale_items.append({
-        "id": f"x:{pin}", "g": "Sold since July 2025", "t": addr, "tag": f"Sold {month}", "hot": sd >= f"{last_sale[:4]}{int(last_sale[4:])-2:02d}",
+        "id": f"x:{pin}", "g": "Sold since July 2025", "t": addr, "tag": f"Sold {month}", "hot": sd >= months_back(last_sale, 2),
         "m": [city, f"${sp:,.0f}", f"{u} licensed units" if u else (typ or "").replace("St. Paul ", "").title()],
         "w": "",
         "lat": round(la, 4), "lon": round(lo, 4),
         "k": {"units": -(u or 0), "t3": 0, "name": addr.lower(), "date": -int(sd)},
-        "c": f"New owner of record: <b>{title(o)}</b>" + (f" · licence manager: {mg[0]} ({' · '.join(x for x in mg[1:] if x)})" if mg else ""),
+        "c": f"New owner of record: <b>{esc(title(o))}</b>" + (f" · licence manager: {esc(mg[0])} ({' · '.join(esc(x) for x in mg[1:] if x)})" if mg else ""),
         "csv": [["Sold since July 2025", mg[0] if mg else "", mg[1] if mg else "", mg[2] if mg else "", mg[3] if mg else "", addr, u or "", "", title(o), "", month, sp]],
     })
     points.append([round(la, 3), round(lo, 3), "Sold since July 2025"])
@@ -193,11 +196,11 @@ gc = collections.Counter(i["g"] for i in items)
 n100 = gc["Managers, 100+ units"]
 big_units = sum(-i["k"]["units"] for i in managers if i["g"] == "Managers, 100+ units")
 ORDER = ["Managers, 100+ units", "Managers, 20–99 units", "Managers, 10–19 units", "St. Paul owners", "Sold since July 2025"]
-built = dt.date.today().isoformat()
+built = PULLED.isoformat()
 total_mgr = len(managers)
 free = {
     "built": built,
-    "eyebrow": f"Unit Turns · Minneapolis and St. Paul rental licences · built {dt.date.today():%b %-d, %Y}",
+    "eyebrow": f"Unit Turns · Minneapolis and St. Paul rental licences · built {PULLED:%b %-d, %Y}",
     "h1": f"{total_mgr} Minneapolis property managers, ranked by the units they turn",
     "lede": (f"Every rental in Minneapolis carries a city licence that names the manager the city calls. "
              f"Grouped by firm, <b>{n100} managers run 100 units or more, {big_units:,} units between them.</b> "

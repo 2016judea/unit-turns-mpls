@@ -3,7 +3,7 @@
 // minted here so it can ride in the invoice footer (Stripe's own invoice email is a
 // second copy of it). Ported from buying-window / msp-house-index.
 const { SITE, PRODUCT, stripe, newPassword } = require("./_lib");
-const meta = require("../data/free.json");
+const meta = require("../public/data/free.json");
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });

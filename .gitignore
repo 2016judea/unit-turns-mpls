@@ -8,4 +8,4 @@ private/
 site/api/_full/
 # outreach: names, contacts and per-prospect pages stay local (site/for/ deploys from disk)
 outreach/round1/ledger.csv
-site/for/
+site/public/for/
