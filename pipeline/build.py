@@ -20,7 +20,7 @@ from dates import months_back  # noqa: E402
 
 C = ROOT / "pipeline/cache"
 PRODUCT = json.loads((ROOT / "product.json").read_text())
-BRICKS = Path.home() / "Desktop/bricks/data"
+BRICKS = Path.home() / "Desktop/workspace/bricks/data"
 # The page says "pulled <date>": that is the day pull.py wrote the cache, not the day this script ran.
 PULLED = dt.date.fromtimestamp((C / "rental.json").stat().st_mtime)
 SALES_FROM = "202507"   # twelve months back from the parcel snapshot's last sale month

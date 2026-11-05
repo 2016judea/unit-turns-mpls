@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Pull the two live city sources into pipeline/cache/ (gitignored). County parcels come from
-bricks' snapshots (~/Desktop/bricks/data/{hennepin,ramsey}_gis.duckdb)."""
+bricks' snapshots (~/Desktop/workspace/bricks/data/{hennepin,ramsey}_gis.duckdb)."""
 import json, urllib.parse, urllib.request
 from pathlib import Path
 

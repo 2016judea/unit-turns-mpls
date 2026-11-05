@@ -9,7 +9,7 @@ Copied from msp-house-index (scripts/fulfil.py + issue_password.py, 2026-10-11).
 password lives in the session metadata (minted by site/api/checkout.js) and in the invoice
 footer. A comp password's last seven characters are an HMAC of its first five in the
 "comp:" domain (site/api/_lib.js checkPassword); the same label always gives the same one.
-Reads STRIPE_SECRET_KEY from ~/Desktop/bricks/.env and ACCESS_SECRET from ./.env.
+Reads STRIPE_SECRET_KEY from ~/Desktop/workspace/bricks/.env and ACCESS_SECRET from ./.env.
 """
 import csv, datetime as dt, hashlib, hmac, sys
 from pathlib import Path
@@ -51,7 +51,7 @@ S = requests.Session()
 
 
 def stripe(path):
-    S.auth = (env("~/Desktop/bricks/.env", "STRIPE_SECRET_KEY"), "")
+    S.auth = (env("~/Desktop/workspace/bricks/.env", "STRIPE_SECRET_KEY"), "")
     j = S.get(f"https://api.stripe.com/v1/{path}").json()
     if "error" in j:
         sys.exit(f"stripe: {j['error'].get('message')}")
