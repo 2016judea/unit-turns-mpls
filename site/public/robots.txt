@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://unit-turns-mpls.vercel.app/sitemap.xml
