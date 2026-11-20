@@ -25,6 +25,12 @@ module.exports = async (req, res) => {
         "payment_method_types[1]": "link",
         customer_creation: "always",
         "invoice_creation[enabled]": "true",
+        // The buyer sees Unit Turns, not the Brick & Mortar account's look (Aidan, 2026-11-20).
+        // Embedded Checkout refuses an icon or logo, so the name and colours are what it carries.
+        "branding_settings[display_name]": "Unit Turns",
+        "branding_settings[background_color]": "#f6f4ef",
+        "branding_settings[button_color]": "#2b4f8c",
+        "payment_intent_data[statement_descriptor_suffix]": "UNIT TURNS",
         "invoice_creation[invoice_data][description]": `${meta.name}: the full list`,
         "invoice_creation[invoice_data][custom_fields][0][name]": "Password",
         "invoice_creation[invoice_data][custom_fields][0][value]": password,
